@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PositiveOrZero;
 
 import lombok.AllArgsConstructor;
@@ -22,7 +23,9 @@ public class BidList {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer bidListId;
+	@NotBlank(message = "Account is mandatory")
 	private String account;
+	@NotBlank(message = "Type is mandatory")
 	private String type;
 	@PositiveOrZero
 	private Double bidQuantity;

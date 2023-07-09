@@ -17,9 +17,9 @@ import com.nnk.springboot.services.RuleNameService;
 
 @Controller
 public class RuleNameController {
-	// TODO: Inject RuleName service
+
 	@Autowired
-	RuleNameService ruleNameService;
+	private RuleNameService ruleNameService;
 
 	@GetMapping("/ruleName/list")
 	public String home(Model model) {
@@ -79,7 +79,6 @@ public class RuleNameController {
 		if (ruleNameFound != null) {
 			ruleNameService.deleteRuleName(ruleNameFound);
 		}
-
 		return "redirect:/ruleName/list";
 	}
 }

@@ -19,7 +19,7 @@ import com.nnk.springboot.services.BidListService;
 public class BidListController {
 
 	@Autowired
-	BidListService bidListService;
+	private BidListService bidListService;
 
 	@GetMapping("/bidList/list")
 	public String home(Model model) {
@@ -32,15 +32,15 @@ public class BidListController {
 	public String addBidForm(BidList bid, Model model) {
 		model.addAttribute("bidList", new BidList());
 		return "bidList/add";
-
 	}
 
 	@PostMapping("/bidList/validate")
-	public String validate(@Valid BidList bid, BindingResult result, Model model) {
+	public String validate(@Valid BidList bid, BindingResult result) {
 		if (!result.hasErrors()) {
 			bidListService.addBid(bid);
-		}
-		return "redirect:/bidList/list";
+			return "redirect:/bidList/list";
+		} else
+			return "/bidList/add";
 	}
 
 	@GetMapping("/bidList/update/{id}")
@@ -49,7 +49,6 @@ public class BidListController {
 		BidList bidList = bidListService.findById(id);
 		model.addAttribute("bidList", bidList);
 		model.addAttribute("bidListupdate", new BidList());
-
 		return "bidList/update";
 	}
 
@@ -64,8 +63,9 @@ public class BidListController {
 				bid.setBidQuantity(bidList.getBidQuantity());
 				bidListService.updateBid(bid);
 			}
+			return "redirect:/bidList/list";
 		}
-		return "redirect:/bidList/list";
+		return "bidList/update";
 	}
 
 	@GetMapping("/bidList/delete/{id}")

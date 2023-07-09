@@ -19,7 +19,7 @@ import com.nnk.springboot.services.CurvePointService;
 public class CurveController {
 
 	@Autowired
-	CurvePointService curvePointService;
+	private CurvePointService curvePointService;
 
 	@GetMapping("/curvePoint/list")
 	public String home(Model model) {
@@ -30,7 +30,7 @@ public class CurveController {
 
 	@GetMapping("/curvePoint/add")
 	public String addBidForm(CurvePoint bid, Model model) {
-		model.addAttribute("curvePoint", new CurvePoint());
+//		model.addAttribute("curvePoint", new CurvePoint());
 		return "curvePoint/add";
 	}
 
@@ -39,8 +39,9 @@ public class CurveController {
 		// TODO: check data valid and save to db, after saving return Curve list
 		if (!result.hasErrors()) {
 			curvePointService.addCurvePoint(curvePoint);
-		}
-		return "redirect:/curvePoint/list";
+			return "redirect:/curvePoint/list";
+		} else
+			return "curvePoint/add";
 	}
 
 	@GetMapping("/curvePoint/update/{id}")
@@ -61,10 +62,11 @@ public class CurveController {
 			if (curvePointFound != null) {
 				curvePointFound.setTerm(curvePoint.getTerm());
 				curvePointFound.setValue(curvePoint.getValue());
-				curvePointService.updateCurvePoint(curvePointFound);
+				curvePointService.updateCurvePoint(curvePoint);
 			}
+			return "redirect:/curvePoint/list";
 		}
-		return "redirect:/curvePoint/list";
+		return "curvePoint/update";
 	}
 
 	@GetMapping("/curvePoint/delete/{id}")

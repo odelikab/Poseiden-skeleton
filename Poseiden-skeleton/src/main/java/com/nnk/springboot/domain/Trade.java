@@ -45,6 +45,6 @@ public class Trade {
 	private Timestamp revisionDate;
 	private String dealName;
 	private String dealType;
-	String sourceListId;
-	String side;
+	private String sourceListId;
+	private String side;
 }

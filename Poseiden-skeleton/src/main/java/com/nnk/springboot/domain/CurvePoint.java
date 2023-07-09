@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 
 import lombok.AllArgsConstructor;
@@ -22,6 +23,7 @@ public class CurvePoint {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
+	@NotNull(message = "must not be null")
 	@Positive
 	private Integer curveId;
 	private Timestamp asOfDate;

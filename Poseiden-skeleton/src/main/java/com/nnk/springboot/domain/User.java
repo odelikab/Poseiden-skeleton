@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,7 @@ public class User {
 	@NotBlank(message = "Username is mandatory")
 	@Column(unique = true)
 	private String username;
+	@Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}", message = "Not valid")
 	@NotBlank(message = "Password is mandatory")
 	private String password;
 	@NotBlank(message = "FullName is mandatory")

@@ -17,9 +17,9 @@ import com.nnk.springboot.services.RatingService;
 
 @Controller
 public class RatingController {
-	// TODO: Inject Rating service
+
 	@Autowired
-	RatingService ratingService;
+	private RatingService ratingService;
 
 	@GetMapping("/rating/list")
 	public String home(Model model) {
@@ -40,8 +40,9 @@ public class RatingController {
 		// TODO: check data valid and save to db, after saving return Rating list
 		if (!result.hasErrors()) {
 			ratingService.addRating(rating);
-		}
-		return "redirect:/rating/list";
+			return "redirect:/rating/list";
+		} else
+			return "rating/add";
 	}
 
 	@GetMapping("/rating/update/{id}")
