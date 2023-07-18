@@ -2,11 +2,9 @@ package com.nnk.springboot.controllers;
 
 import java.util.List;
 
-import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,7 +25,7 @@ public class UserController {
 	@Autowired
 	private UserRepository userRepository;
 
-	@RolesAllowed("ADMIN")
+//	@RolesAllowed("ADMIN")
 	@GetMapping("/user/list")
 	public String home(Model model) {
 		List<User> users = userService.getAllUsers();
@@ -43,8 +41,8 @@ public class UserController {
 	@PostMapping("/user/validate")
 	public String validate(@Valid User user, BindingResult result, Model model) {
 		if (!result.hasErrors()) {
-			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-			user.setPassword(encoder.encode(user.getPassword()));
+			// BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+			// user.setPassword(encoder.encode(user.getPassword()));
 			userService.addUser(user);
 //            model.addAttribute("users", userRepository.findAll());
 			return "redirect:/user/list";
@@ -66,9 +64,10 @@ public class UserController {
 		if (result.hasErrors()) {
 			return "user/update";
 		} else {
-			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-			user.setPassword(encoder.encode(user.getPassword()));
+			// BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+			// user.setPassword(encoder.encode(user.getPassword()));
 			userRepository.save(user);
+			userRepository.update(user.getRole(), user.getId());
 			return "redirect:/user/list";
 		}
 	}

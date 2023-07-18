@@ -19,7 +19,9 @@ public class UserService {
 	}
 
 	public User addUser(User user) {
-		return userRepository.save(user);
+		user = userRepository.save(user);
+		userRepository.save(user.getId(), user.getUsername(), user.getRole());
+		return user;
 	}
 
 }

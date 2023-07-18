@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -29,17 +29,11 @@ public class SecurityConfiguration {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-		http.csrf(csrf -> csrf.disable())
-				.authorizeHttpRequests((authz) -> authz.antMatchers("/bidList/list").authenticated()
-						.antMatchers("/user/list").hasRole("ADMIN").anyRequest().permitAll())
-				.httpBasic(Customizer.withDefaults());
+		http.csrf(csrf -> csrf.disable()).authorizeHttpRequests((authz) -> authz.antMatchers("/").permitAll()// .antMatchers("/user/list").hasAnyRole("USER",
+																												// "ADMIN")
+				.anyRequest().authenticated()).httpBasic(Customizer.withDefaults()).formLogin();
 		return http.build();
 	}
-
-//	@Override
-//	public void configure(HttpSecurity http) throws Exception {
-//		http.csrf().disable().authorizeRequests().anyRequest().permitAll().and().formLogin();
-//	}
 
 	@Bean
 	public UserDetailsService jdbcUserDetailsService(DataSource dataSource) {
@@ -53,6 +47,7 @@ public class SecurityConfiguration {
 
 		return users;
 	}
+
 //	@Bean
 //	public InMemoryUserDetailsManager userDetailsService() {
 //		UserDetails user = User.withDefaultPasswordEncoder().username("user").password("password").roles("USER")
@@ -62,6 +57,6 @@ public class SecurityConfiguration {
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
+		return NoOpPasswordEncoder.getInstance();
 	}
 }

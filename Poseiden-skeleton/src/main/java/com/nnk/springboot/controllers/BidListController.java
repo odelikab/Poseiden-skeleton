@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,16 +23,20 @@ public class BidListController {
 	@Autowired
 	private BidListService bidListService;
 
+	private static final Logger logger = LoggerFactory.getLogger(BidListController.class);
+
 	@GetMapping("/bidList/list")
 	public String home(Model model) {
 		List<BidList> bidLists = bidListService.getAllBid();
 		model.addAttribute("bidLists", bidLists);
+		logger.info("display home page");
 		return "bidList/list";
 	}
 
 	@GetMapping("/bidList/add")
 	public String addBidForm(BidList bid, Model model) {
 		model.addAttribute("bidList", new BidList());
+		logger.info("Add bidList page");
 		return "bidList/add";
 	}
 
@@ -38,9 +44,12 @@ public class BidListController {
 	public String validate(@Valid BidList bid, BindingResult result) {
 		if (!result.hasErrors()) {
 			bidListService.addBid(bid);
+			logger.info("BidList {} added", bid);
 			return "redirect:/bidList/list";
-		} else
-			return "/bidList/add";
+		} else {
+			logger.error("BidList not valid");
+			return "bidList/add";
+		}
 	}
 
 	@GetMapping("/bidList/update/{id}")
@@ -62,16 +71,20 @@ public class BidListController {
 				bid.setType(bidList.getType());
 				bid.setBidQuantity(bidList.getBidQuantity());
 				bidListService.updateBid(bid);
+				logger.info("BidList {} updated", bidList);
+				return "redirect:/bidList/list";
 			}
-			return "redirect:/bidList/list";
 		}
+		logger.error("BidList not valid");
 		return "bidList/update";
+
 	}
 
 	@GetMapping("/bidList/delete/{id}")
 	public String deleteBid(@PathVariable("id") Integer id, Model model) {
 		// TODO: Find Bid by Id and delete the bid, return to Bid list
 		bidListService.deleteBid(id);
+		logger.info("BidList {} deleted");
 		return "redirect:/bidList/list";
 	}
 }
