@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	  xmlns:th="http://www.thymeleaf.org"
+	>
+<head>
+      <title>Spring Boot Error</title>
+</head>
+<!--<body th:with="httpStatus=${T(org.springframework.http.HttpStatus).valueOf(#response.status)}">
+        <h1 th:text="|${httpStatus} - ${httpStatus.reasonPhrase}|">404</h1>
+        <p th:utext="${errorMessage}">Error java.lang.NullPointerException</p>
+        <a href="index.html" th:href="@{/index.html}">Back to Home Page</a>
+    </body>-->
+<body th:with="httpStatus=${T(org.springframework.http.HttpStatus).valueOf(#response.status)}">
+   <h3>Access Denied Exception</h3>
+   <div>
+	    Logged in user: <b th:inline="text" class="user"> [[${#httpServletRequest.remoteUser}]] </b>
+	    
+	    <form th:action="@{/logout}" method="POST">
+	         <input type="submit" value="Logout"/>
+	    </form>
+   </div>
+    <p class="error" th:text="${errorMessage}">Error</p>
+</body>
+</html>   
