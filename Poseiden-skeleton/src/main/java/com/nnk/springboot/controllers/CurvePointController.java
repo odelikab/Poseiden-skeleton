@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,32 +18,38 @@ import com.nnk.springboot.domain.CurvePoint;
 import com.nnk.springboot.services.CurvePointService;
 
 @Controller
-public class CurveController {
+public class CurvePointController {
 
 	@Autowired
 	private CurvePointService curvePointService;
+
+	private static final Logger logger = LoggerFactory.getLogger(CurvePointController.class);
 
 	@GetMapping("/curvePoint/list")
 	public String home(Model model) {
 		List<CurvePoint> curvePoints = curvePointService.getAllCurves();
 		model.addAttribute("curvePoints", curvePoints);
+		logger.info("CurvePoint list");
 		return "curvePoint/list";
 	}
 
 	@GetMapping("/curvePoint/add")
-	public String addBidForm(CurvePoint bid, Model model) {
-//		model.addAttribute("curvePoint", new CurvePoint());
+	public String addBidForm(CurvePoint curvePoint, Model model) {
+		logger.info("Add curvePoint page");
 		return "curvePoint/add";
 	}
 
 	@PostMapping("/curvePoint/validate")
-	public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model) {
+	public String validate(@Valid CurvePoint curvePoint, BindingResult result) {
 		// TODO: check data valid and save to db, after saving return Curve list
 		if (!result.hasErrors()) {
 			curvePointService.addCurvePoint(curvePoint);
+			logger.info("curvePoint {} added", curvePoint.getCurveId());
 			return "redirect:/curvePoint/list";
-		} else
+		} else {
+			logger.error("curvePoint not valid");
 			return "curvePoint/add";
+		}
 	}
 
 	@GetMapping("/curvePoint/update/{id}")
@@ -49,6 +57,7 @@ public class CurveController {
 		// TODO: get CurvePoint by Id and to model then show to the form
 		CurvePoint curvePointFound = curvePointService.findCurvePointById(id);
 		model.addAttribute("curvePoint", curvePointFound);
+		logger.info("curvePoint {} update");
 		return "curvePoint/update";
 	}
 
@@ -63,9 +72,11 @@ public class CurveController {
 				curvePointFound.setTerm(curvePoint.getTerm());
 				curvePointFound.setValue(curvePoint.getValue());
 				curvePointService.updateCurvePoint(curvePoint);
+				logger.info("curvePoint {} updated", curvePointFound.getCurveId());
 			}
 			return "redirect:/curvePoint/list";
 		}
+		logger.error("curvePoint not valid");
 		return "curvePoint/update";
 	}
 
@@ -75,6 +86,7 @@ public class CurveController {
 		CurvePoint curvePointFound = curvePointService.findCurvePointById(id);
 		if (curvePointFound != null) {
 			curvePointService.deleteCurvePoint(curvePointFound);
+			logger.info("curvePoint {} deleted");
 		}
 		return "redirect:/curvePoint/list";
 	}

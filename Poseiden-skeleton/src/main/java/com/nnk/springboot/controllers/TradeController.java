@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +19,8 @@ import com.nnk.springboot.services.TradeService;
 
 @Controller
 public class TradeController {
+
+	private static final Logger logger = LoggerFactory.getLogger(TradeController.class);
 
 	@Autowired
 	private TradeService tradeService;
@@ -42,7 +46,7 @@ public class TradeController {
 			tradeService.addTrade(trade);
 			return "redirect:/trade/list";
 		} else
-			return "/trade/add";
+			return "trade/add";
 	}
 
 	@GetMapping("/trade/update/{id}")
@@ -61,7 +65,7 @@ public class TradeController {
 			tradeService.updateTrade(trade);
 			return "redirect:/trade/list";
 		} else
-			return "/trade/update";
+			return "trade/update";
 
 	}
 

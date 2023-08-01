@@ -20,7 +20,7 @@ public class UserService {
 
 	public User addUser(User user) {
 		user = userRepository.save(user);
-		userRepository.save(user.getId(), user.getUsername(), user.getRole());
+		userRepository.saveAuthority(user.getId(), user.getUsername(), user.getRole());
 		return user;
 	}
 

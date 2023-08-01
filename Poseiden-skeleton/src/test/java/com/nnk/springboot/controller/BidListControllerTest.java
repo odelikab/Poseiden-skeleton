@@ -91,11 +91,6 @@ public class BidListControllerTest {
 
 	@Test
 	public void testDeleteSuccess() throws Exception {
-//		BidList testBidList = new BidList();
-//		testBidList.setAccount("account");
-//		testBidList.setType("type");
-//		testBidList.setBidQuantity(3.0);
-//		testBidList = bidListRepository.save(testBidList);
 		mockMvc.perform(
 				get("/bidList/delete/{id}", testBidList.getBidListId()).with(user("testUser").password("testUser123?")))
 				.andDo(print()).andExpect(view().name("redirect:/bidList/list"));

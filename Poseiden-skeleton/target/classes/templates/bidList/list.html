@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" 
-	  xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="utf-8"/>
 <title>Bid List</title>
@@ -9,18 +9,18 @@
 <body>
 <div class="container">
 	<div class="row">
-		<div class="col-6" sec:authorize="hasRole('ADMIN')">
+		<div class="col-6">
 			<a href="/bidList/list">Bid List</a>&nbsp;|&nbsp;
 			<a href="/curvePoint/list">Curve Points</a>&nbsp;|&nbsp;
 			<a href="/rating/list">Ratings</a>&nbsp;|&nbsp;
 			<a href="/trade/list">Trade</a>&nbsp;|&nbsp;
 			<a href="/ruleName/list">Rule</a>&nbsp;|&nbsp;
 			<!--access for admins only-->
-			<a href="/user/list" >Users</a>
+			<a href="/user/list" sec:authorize="hasRole('ADMIN')" >Users</a>
 		</div>
 		<div class="col-6 text-right">
 			Logged in user: <b th:inline="text"  class="user"> [[${#httpServletRequest.remoteUser}]] </b>
-			<form th:action="@{/app-logout}" method="POST">
+			<form th:action="@{/logout}" method="POST">
 				<input type="submit" value="Logout"/>
 			</form>
 		</div>

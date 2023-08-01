@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +19,8 @@ import com.nnk.springboot.services.RuleNameService;
 
 @Controller
 public class RuleNameController {
+
+	private static final Logger logger = LoggerFactory.getLogger(RuleNameController.class);
 
 	@Autowired
 	private RuleNameService ruleNameService;
@@ -40,8 +44,9 @@ public class RuleNameController {
 		// TODO: check data valid and save to db, after saving return RuleName list
 		if (!result.hasErrors()) {
 			ruleNameService.addRuleName(ruleName);
+			return "redirect:/ruleName/list";
 		}
-		return "redirect:/ruleName/list";
+		return "ruleName/add";
 	}
 
 	@GetMapping("/ruleName/update/{id}")
@@ -58,18 +63,11 @@ public class RuleNameController {
 		// TODO: check required fields, if valid call service to update RuleName and
 		// return RuleName list
 		if (!result.hasErrors()) {
-//			RuleName ruleNameFound = ruleNameService.findRuleNameById(id);
-//			if (ruleNameFound != null) {
-//				ruleNameFound.setDescription(ruleName.getDescription());
-//				ruleNameFound.setName(ruleName.getName());
-//				ruleNameFound.setJson(ruleName.getJson());
-//				ruleNameFound.setSqlPart(ruleName.getSqlPart());
-//				ruleNameFound.setSqlStr(ruleName.getSqlStr());
-//				ruleNameFound.setTemplate(ruleName.getTemplate());
 			ruleNameService.updateRuleName(ruleName);
+			return "redirect:/ruleName/list";
 //			}
 		}
-		return "redirect:/ruleName/list";
+		return "ruleName/update";
 	}
 
 	@GetMapping("/ruleName/delete/{id}")

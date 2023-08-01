@@ -7,14 +7,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "trade")
@@ -23,7 +26,9 @@ public class Trade {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer tradeId;
+	@NotBlank(message = "must not be empty")
 	private String account;
+	@NotBlank(message = "must not be empty")
 	private String type;
 	@Positive
 	private Double buyQuantity;
@@ -47,4 +52,11 @@ public class Trade {
 	private String dealType;
 	private String sourceListId;
 	private String side;
+
+	public Trade(@NotBlank(message = "must not be empty") String account,
+			@NotBlank(message = "must not be empty") String type) {
+		super();
+		this.account = account;
+		this.type = type;
+	}
 }
