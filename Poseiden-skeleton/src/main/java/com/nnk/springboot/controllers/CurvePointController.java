@@ -57,7 +57,7 @@ public class CurvePointController {
 		// TODO: get CurvePoint by Id and to model then show to the form
 		CurvePoint curvePointFound = curvePointService.findCurvePointById(id);
 		model.addAttribute("curvePoint", curvePointFound);
-		logger.info("curvePoint {} update");
+		logger.info("curvePoint update");
 		return "curvePoint/update";
 	}
 
@@ -85,8 +85,9 @@ public class CurvePointController {
 		// TODO: Find Curve by Id and delete the Curve, return to Curve list
 		CurvePoint curvePointFound = curvePointService.findCurvePointById(id);
 		if (curvePointFound != null) {
+			logger.info("curvePoint {} deleted", curvePointFound.getCurveId());
 			curvePointService.deleteCurvePoint(curvePointFound);
-			logger.info("curvePoint {} deleted");
+
 		}
 		return "redirect:/curvePoint/list";
 	}

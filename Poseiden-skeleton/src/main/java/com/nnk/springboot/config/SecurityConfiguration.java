@@ -5,7 +5,6 @@ import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -31,8 +30,8 @@ public class SecurityConfiguration {
 		http.csrf(csrf -> csrf.disable())
 				.authorizeHttpRequests((authz) -> authz.antMatchers("/").permitAll().antMatchers("/user/list")
 						.hasRole("ADMIN").antMatchers("/user/delete/*").hasRole("ADMIN").antMatchers("/user/update/*")
-						.hasRole("ADMIN").anyRequest().authenticated())
-				.httpBasic(Customizer.withDefaults()).formLogin().defaultSuccessUrl("/bidList/list");
+						.hasRole("ADMIN").anyRequest().authenticated().and())
+				.formLogin().defaultSuccessUrl("/bidList/list");
 		return http.build();
 	}
 

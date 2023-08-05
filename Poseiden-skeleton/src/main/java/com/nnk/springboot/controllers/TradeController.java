@@ -27,7 +27,7 @@ public class TradeController {
 
 	@GetMapping("/trade/list")
 	public String home(Model model) {
-		// TODO: find all Trade, add to model
+		logger.info("display rule name list");
 		List<Trade> trades = tradeService.getAllTrades();
 		model.addAttribute("trades", trades);
 		return "trade/list";
@@ -35,23 +35,26 @@ public class TradeController {
 
 	@GetMapping("/trade/add")
 	public String addTrade(Trade trade, Model model) {
-//		model.addAttribute("trade", new Trade());
+		logger.info("add rule name page");
 		return "trade/add";
 	}
 
 	@PostMapping("/trade/validate")
 	public String validate(@Valid Trade trade, BindingResult result, Model model) {
-		// TODO: check data valid and save to db, after saving return Trade list
+
 		if (!result.hasErrors()) {
+			logger.info("adding rule name");
 			tradeService.addTrade(trade);
 			return "redirect:/trade/list";
-		} else
+		} else {
+			logger.error("add rule name fail");
 			return "trade/add";
+		}
 	}
 
 	@GetMapping("/trade/update/{id}")
 	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-		// TODO: get Trade by Id and to model then show to the form
+		logger.info("update rule name");
 		Trade tradeFound = tradeService.findTradeById(id);
 		model.addAttribute("trade", tradeFound);
 		return "trade/update";
@@ -59,19 +62,20 @@ public class TradeController {
 
 	@PostMapping("/trade/update/{id}")
 	public String updateTrade(@PathVariable("id") Integer id, @Valid Trade trade, BindingResult result, Model model) {
-		// TODO: check required fields, if valid call service to update Trade and return
-		// Trade list
 		if (!result.hasErrors()) {
+			logger.info("rule name updated");
 			tradeService.updateTrade(trade);
 			return "redirect:/trade/list";
-		} else
+		} else {
+			logger.error("update rule name fail");
 			return "trade/update";
+		}
 
 	}
 
 	@GetMapping("/trade/delete/{id}")
 	public String deleteTrade(@PathVariable("id") Integer id, Model model) {
-		// TODO: Find Trade by Id and delete the Trade, return to Trade list
+		logger.info("deleting rule name");
 		Trade tradeFound = tradeService.findTradeById(id);
 		tradeService.deleteTrade(tradeFound);
 		return "redirect:/trade/list";

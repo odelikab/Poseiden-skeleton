@@ -1,5 +1,7 @@
 package com.nnk.springboot.controllers;
 
+import java.security.Principal;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -12,9 +14,9 @@ public class HomeController {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
 	@GetMapping("/")
-	public String home(Model model) {
+	public String home(Principal principal, Model model) {
 		logger.info("displaying home page");
-
+		model.addAttribute("auth", principal);
 		return "home";
 	}
 

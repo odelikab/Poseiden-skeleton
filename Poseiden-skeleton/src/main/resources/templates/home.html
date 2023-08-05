@@ -7,7 +7,9 @@
 <body>
 <h3> HOME PAGE </h3>
 <p>
-    <a href="/login">Login</a> or create one <a href="/user/add">Create account</a>
+    <a href="/login">Login</a> /  
+    <span th:if="${auth} == null"> or create one <a href="/user/add">Create account</a></span>
+    <span sec:authorize="isAuthenticated()"><a href="/bidList/list">Resources</a></span>
 </p>
 <p sec:authorize="hasRole('ADMIN')">
     or access <a href="/user/list">User management</a>
